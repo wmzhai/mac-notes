@@ -27,7 +27,6 @@
    - [Oh My Zsh](#oh-my-zsh)
    - [stow](#stow)
    - [Git 常用别名](#git-常用别名)
-   - [Scroll Reverser](#scroll-reverser)
    - [ShiftIt](#shiftit)
    - [Sublime Text 2](#sublime-text-2)
    - [MacDown](#macdown)
@@ -338,21 +337,6 @@ gwip  | `git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit -
 
 
 完整列表请参考：<https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git>
-
-
-### Scroll Reverser
-
-当你在浏览一个很长的网页时，你看完了当前显示的内容，想要看后续的内容，你可以在 Trackpad 上双指上滑，或者鼠标滚轮向上滚动。这是被称作“自然”的滚动方向。
-
-然而在 Windows 里鼠标滚动的行为是相反的：鼠标滚轮向下滚动才会让浏览器显示后续的内容，向上滚动会达到页面的顶部。你可以在 OS X 的系统偏好设置里修改（选择`System Preferences` > `Trackpad`，在`Scroll & Zoom`标签页中不选中`Scroll direction: natural`），但是这样会同时改变鼠标滚轮的方向和 Trackpad 的方向。
-
-要想只改变鼠标滚轮的方向，而保持 Trackpad 依旧是“自然”的，我们需要 Scroll Reverser：
-
-```sh
-brew cask install scroll-reverser
-```
-
-PS：这货会让三指点击失效
 
 ### ShiftIt
 
