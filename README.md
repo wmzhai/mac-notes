@@ -1,6 +1,6 @@
 # Mac设置指南
 
-## Table of Contents
+## 目录
 
 1. [OS X](#1-os-x)
 
