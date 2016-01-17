@@ -22,7 +22,7 @@
 
    - [Homebrew](#homebrew)
    - [Homebrew Cask](#homebrew-cask)
-   - [翻墙](#gfw)
+   - [翻墙](#翻墙)
    - [WebStorm](#webstorm)
    - [iTerm2](#iterm2)
    - [Oh My Zsh](#oh-my-zsh)
@@ -253,6 +253,18 @@ brew install caskroom/cask/brew-cask
 ### 翻墙
 
 可以通过shadowsocks和proxychains4联合的方式实现term翻墙
+
+#### shadowsocks
+shadowsockes的server配置很简单，在虚拟机上启动一个docker就行了，如下
+
+```sh
+docker pull oddrationale/docker-shadowsocks
+docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k paaassswwword -m aes-256-cfb
+```
+
+#### proxychains4
+
+shadowsocks无法实现终端翻墙，终端翻墙还需要配合proxychains4来使用
 
 https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
 
