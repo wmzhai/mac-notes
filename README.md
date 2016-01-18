@@ -264,9 +264,18 @@ docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k
 
 #### proxychains4
 
+
 shadowsocks无法实现终端翻墙，终端翻墙还需要配合proxychains4来使用
 
+
+https://eliyar.biz/code/proxy-for-mac-terminal/
+
 https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
+
+
+配置完成以后在./zshrc里面加入alias
+alias pc=‘proxychains4’
+
 
 ### webstorm
 
