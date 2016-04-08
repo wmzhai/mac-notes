@@ -29,7 +29,6 @@
    - [stow](#stow)
    - [Git 常用别名](#git-常用别名)
    - [ShiftIt](#shiftit)
-   - [Sublime Text 2](#sublime-text-2)
    - [MacDown](#macdown)
    - [z](#z)
    - [Vimium](#vimium)
