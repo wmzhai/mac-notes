@@ -37,16 +37,6 @@
    - [CheatSheet](#cheatsheet)
    - [Alfred](#alfred)
 
-3. [开发工具](#3-开发工具)
-
-   - [Java](#java)
-   - [jEnv](#jenv)
-   - [民间使用的 Java 版本切换方法](#民间使用的-java-版本切换方法)
-   - [Java[OCD]](#javaocd)
-   - [IntelliJ IDEA](#intellij-idea)
-   - [rbenv](#rbenv)
-   - [Ruby 常用别名](#ruby-常用别名)
-
 一直想写这么一篇文章，把我从同事那里学到的经验分享出来。市面上有很多类似的文章，写得都非常好，让我受益匪浅。不过我还是有一些自己总结出来的经验想要分享。
 
 在工作中，我一般会在 1 到 10 人的团队中，经常会结对编程，即两个人共用一台 Mac 工作，因此也经常会把 Mac 外接一个大显示器、鼠标和键盘。我的常用开发平台有 Java、Ruby、Node.js、Web 等，使用 [JetBrains](https://www.jetbrains.com/) 的开发工具，比如 IntelliJ IDEA、RubyMine、WebStorm 等。
@@ -254,7 +244,7 @@ brew install caskroom/cask/brew-cask
 可以通过shadowsocks和proxychains4联合的方式实现term翻墙
 
 #### shadowsocks
-shadowsockes的server配置很简单，在虚拟机上启动一个docker就行了，如下
+shadowsockes的server配置很简单，在境外虚拟机上启动一个docker就行了，如下
 
 ```sh
 docker pull oddrationale/docker-shadowsocks
@@ -263,13 +253,7 @@ docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k
 
 #### proxychains4
 
-
-shadowsocks无法实现终端翻墙，终端翻墙还需要配合proxychains4来使用
-
-https://eliyar.biz/code/proxy-for-mac-terminal/
-
-https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
-
+shadowsocks无法自动支持终端翻墙，终端翻墙还需要配合proxychains4来使用
 
 首先安装proxychains，如下
 
@@ -296,6 +280,12 @@ alias pc=‘proxychains4’
 
 最后在所有需要翻墙指令的前面添加`pc`就可以了
 
+
+参考文章
+
+https://eliyar.biz/code/proxy-for-mac-terminal/
+
+https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
 
 ### webstorm
 
@@ -487,142 +477,6 @@ Mac 用户不用鼠标键盘的必备神器，配合大量 Workflows，习惯之
 
 ```sh
 brew cask install alfred
-```
-
-## 3. 开发工具
-
-### Java
-
-现在 OS X 都不会自带 JDK 了，所以进行 Java 开发的话，需要下载 JDK。在 brew-cask 之前，我们需要从 <https://developer.apple.com/downloads/> 或者 Oracle 网站上下载。还有更麻烦的－－卸载 JDK 和升级 JDK。
-
-JDK 安装文件是 pkg 格式，卸载和`.app`不一样，且没有自动卸载方式。
-
-而 brew-cask 提供了自动安装和卸载功能，能够自动从官网上下载并安装 JDK 8。
-
-```sh
-brew cask install java
-```
-
-如果你需要安装 JDK 7 或者 JDK 6，可以使用`homebrew-cask-versions`：
-
-```sh
-brew tap caskroom/versions
-brew cask install java6
-```
-
-在 OS X 上，你可以同时安装多个版本的 JDK。你可以通过命令`/usr/libexec/java_home -V`来查看安装了哪几个 JDK。
-
-那问题来了，当你运行`java`或者 Java 程序时使用的是哪个 JDK 呢？在 OS X 下，`java`也就是`/usr/bin/java`在默认情况下指向的是已经安装的最新版本。但是你可以设置环境变量`JAVA_HOME`来更改其指向：
-
-```sh
-$ java -version
-java version "1.8.0_60"
-Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
-Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)
-$ JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home java -version
-java version "1.6.0_65"
-Java(TM) SE Runtime Environment (build 1.6.0_65-b14-466.1-11M4716)
-Java HotSpot(TM) 64-Bit Server VM (build 20.65-b04-466.1, mixed mode)
-```
-
-其中`JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home`可以用`` JAVA_HOME=`/usr/libexec/java_home -v 1.6` ``这种更加通用的方式代替。
-
-### [jEnv](https://github.com/gcuisinier/jenv)
-
-也可以使用 jEnv 来管理不同版本的 JDK，这个工具跟 [rbenv](#rbenv) 类似，通过当前目录下的`.java-version`来决定使用哪个 JDK。jEnv 也可以用 brew 安装。不过要使用 jEnv 要有几个问题：
-
-- 需要手动把`eval "$(jenv init -)"`加入 profile，没有 Oh My Zsh 插件。这点是我非常反感的。
-
-  可以把`eval "$(jenv init -)"`加入`~/.zlogin`，这样可以避免修改`~/.zshrc`。
-- 需要手动添加 JDK，不会自动采集系统 JDK。跟 Ruby 不同，OS X 已经提供`/usr/libexec/java_home`工具来管理安装的 JDK。
-- 需要 `jenv rehash`。这个是跟 rbenv 学的。
-
-所以我建议不要使用 jEnv。
-
-### 民间使用的 Java 版本切换方法
-
-添加以下脚本到当前 shell 配置文件中：`~/.zprofile`或者`~/.bash_profile`。
-
-```sh
-function setjdk() {
-    export JAVA_HOME=`/usr/libexec/java_home -v $@`
-}
-```
-这样我们就可以通过输入一条命令进行版本切换了：
-
-```sh
-setjdk 1.8
-```
-
-### Java[OCD]
-
-作为一个强迫症患者，每当我看到 Java 的错误写法就想纠正过来。
-
-当指编程语言时，Java 的正确写法是首字母大写，其余小写。其他写法比如`JAVA`、`java`都是不对的。
-
-在其他一些地方会使用小写的`java`：
-
-- `java`命令
-- 原文件`Main.java`
-- 包名`java.lang`
-
-只有在全大写的标题里使用`JAVA`或者环境变量`JAVA_HOME`。
-
-### IntelliJ IDEA
-
-Java 开发必备工具 IntelliJ IDEA。可以安装 Ultimate Edition：
-
-```sh
-brew cask install intellij-idea
-```
-
-也可以安装开源免费的 Community Edition：
-
-```sh
-brew cask install intellij-idea-ce
-```
-
-IntelliJ IDEA 有几套内建的快捷键方案（Keymap）。其中适用于 OS X 的有`Mac OS X`和`Mac OS X 10.5+`两种。区别是:
-
-- `Mac OS X`方案和其他平台上的快捷键类似，
-- 而`Mac OS X 10.5+`更加符合 OS X 常用的快捷键。
-
-一个团队使用不同的快捷键会严重影响效率。可以用`View | Quick Switch Scheme`（`⌃ Back Quote`）快速切换 Keymap。
-
-如果可以选择的话，我建议使用`Mac OS X`方案。因为我经常遇到使用 Windows 的客户，而 Windows 平台上的快捷键和`Mac OS X`方案类似。
-
-可以从 IDEA 的`Help > Default Keymap Reference`打开快捷键的参考手册。不过从这里打开的是`Mac OS X 10.5+`方案的，而`Mac OS X`方案的可以从这里找到：<http://www.basrikahveci.com/static/ij_keymap_mac.pdf>。
-
-### [rbenv](https://github.com/sstephenson/rbenv)
-
-人人都需要一个 Ruby 版本管理工具。rbenv 就是这样一个轻量级工具，它可以通过 brew 安装。
-
-安装：
-
-```sh
-brew install rbenv ruby-build
-```
-
-然后在`~/.zshrc`中加上`rbenv`插件。否则你需要手动添加`eval "$(rbenv init -)"`到`~/zshrc`或者`~/.zprofile`文件里。
-
-有时候项目会依赖一些奇怪的版本号，比如`ruby-2.1.0`，这个时候你需要 [rbenv-aliases](https://github.com/tpope/rbenv-aliases) 帮忙：
-
-```sh
-brew install rbenv-aliases
-```
-
-替代品有 RVM、chruby。因为 RVM 不能通过 brew 安装，并且安装的时候会没有节操的修改一堆文件，所以被我早早的弃用了。chruby 也是一个轻量级工具，而且可以完美的和 Oh My Zsh 集成在一起，我看到有些生产环境在用它。
-
-### Ruby 常用别名
-
-几乎所有 Ruby 开发人员都会把`bi`作为`bundle install`的别名。Oh My Zsh 提供`builder`插件，这个插件提供了一套别名，比如`bi`、`be`。同时还能让你在运行一些常用 gem 的时候直接输入`rspec`，不需要`be rspec`这样了。具体包括哪些命令请参考[这里](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/bundler)。
-
-Z shell 对于`[`和`]`符号有特殊的处理，所以在运行`rake task[parameter]`的时候会报错，你需要改成`rake task\[parameter\]`或者`noglob rake task[parameter]`。然而 Oh My Zsh 已经看穿这一切，自带的 rake 插件已经解决了这个问题：`brake task[parameter]`。
-
-添加插件的时候注意把`rake`放到`bundler`后面，例如这样：
-
-```
-plugins=(git z sublime history rbenv bundler rake)
 ```
 
 ## 参考资料
