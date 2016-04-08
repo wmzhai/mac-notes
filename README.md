@@ -295,6 +295,7 @@ socks5  127.0.0.1 1080
 配置完成以后在./zshrc里面加入alias
 alias pc=‘proxychains4’
 
+最后在所有需要翻墙指令的前面添加`pc`就可以了
 
 
 ### webstorm
@@ -400,20 +401,6 @@ PS：ShiftIt的旧版本需要安装 X11，最新版本已经修正了这个问�
 替代者有 SizeUp，主要快捷键和 ShiftIt 相同。
 
 当然如果喜欢 hacking，[Slate](https://github.com/jigish/slate)  是个不错的 hackable 的窗口管理工具。配置可以参照 http://thume.ca/howto/2012/11/19/using-slate/
-
-### Sublime Text 2
-
-安装：
-
-```sh
-brew cask install sublime-text
-```
-
-在命令行中指定使用 Sublime Text 打开某文件，是一个非常常用的功能，一般我们会按照 [OS X Command Line](https://www.sublimetext.com/docs/2/osx_command_line.html) 中所说执行 `ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl` 来增加`subl`链接。但是如果你用 brew-cask 安装的话，恭喜你，你不需要运行这个命令，因为 brew-cask 自动帮你做了这件事情。而且你卸载 Sublime Text 的时候 brew-cask 会自动删掉这个链接。
-
-同时 Oh My Zsh 也提供了 Sublime Text 插件，叫做`sublime`。参考：<https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/sublime>，这个插件和通过 brew-cask 安装的 Sublime Text 完美兼容。
-
-替代品有 Atom、TextMate、Sublime Text 3 等，跟 Sublime Text 2 一样，用 brew-cask 安装的话命令行工具会被自动加入`$PATH`。
 
 ### MacDown
 
