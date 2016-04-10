@@ -239,21 +239,19 @@ brew install caskroom/cask/brew-cask
 几乎所有常用的应用都可以通过 brew-cask 安装，而且是从应用的官网上下载，所以你要安装新的应用时，建议用 brew-cask 安装。如果你不知道应用在 brew-cask 中的 ID，可以先用`brew cask search`命令搜索。
 
 
-### 翻墙
+### shadowsocks翻墙
 
-可以通过shadowsocks和proxychains4联合的方式实现term翻墙
-
-#### shadowsocks
 shadowsockes的server配置很简单，在境外虚拟机上启动一个docker就行了，如下
 
 ```sh
 docker pull oddrationale/docker-shadowsocks
 docker run -d -p 1984:1984 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1984 -k paaassswwword -m aes-256-cfb
 ```
+shadowsocks无法自动支持终端翻墙，终端翻墙还需要配合proxychains4或者polipo来使用
+两者的区别在于，使用proxychains时，在指令前需要添加proxychains4前缀，而polipo则可以默认实现翻墙
 
-#### proxychains4
+### proxychains4实现Term翻墙
 
-shadowsocks无法自动支持终端翻墙，终端翻墙还需要配合proxychains4来使用
 
 首先安装proxychains，如下
 
@@ -286,6 +284,63 @@ alias pc=‘proxychains4’
 https://eliyar.biz/code/proxy-for-mac-terminal/
 
 https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
+
+### Polipo实现Term翻墙
+
+首先安装polipo
+```
+brew install polipo
+```
+
+然后创建配置文件`~/Library/LaunchAgents/homebrew.mxcl.polipo.plist` 如下
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>homebrew.mxcl.polipo</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/opt/polipo/bin/polipo</string>
+      <string>socksParentProxy=localhost:1080</string>
+    </array>
+    <!-- Set `ulimit -n 20480`. The default OS X limit is 256, that's
+         not enough for Polipo (displays 'too many files open' errors).
+         It seems like you have no reason to lower this limit
+         (and unlikely will want to raise it). -->
+    <key>SoftResourceLimits</key>
+    <dict>
+      <key>NumberOfFiles</key>
+      <integer>20480</integer>
+    </dict>
+  </dict>
+</plist>
+```
+
+然后执行
+```
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist
+```
+
+需要翻墙时，export如下环境变量
+```
+export https_proxy=http://localhost:8123
+export http_proxy=http://localhost:8123
+```
+
+然后测试一下是否成功
+```
+curl -i --verbose https://www.facebook.com
+```
+
+
+
+
 
 ### webstorm
 
